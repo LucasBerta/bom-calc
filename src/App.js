@@ -11,21 +11,26 @@ function App() {
     if (!validateBOM(bomLines)) return alert('Please copy the BOM from NAV and try again!');
     let totalCost = getTotalCost(bomLines);
 
-    console.log(tableData);
-
     const _discountForPOPrice = ((poPrice / totalCost - 1) * -100).toFixed(5);
     setDiscountForPOPrice(_discountForPOPrice);
     mapTableData(bomLines);
   }
 
   function mapTableData(bomLines) {
-    const _tableData = getMatrix(bomLines)
+    const matrix = getMatrix(bomLines);
+    const indexes = {
+      code: findFieldIndex(matrix[0], 'No.'),
+      description: findFieldIndex(matrix[0], 'Description'),
+      quantity: findFieldIndex(matrix[0], 'Quantity'),
+      unitPrice: findFieldIndex(matrix[0], 'Unit Price Excl. VAT'),
+    };
+    const _tableData = matrix
       .filter((_, index) => index > 0)
       .map(row => ({
-        Code: findFieldValue(row, 'No.'),
-        Description: findFieldValue(row, 'Description'),
-        Quantity: findFieldValue(row, 'Quantity'),
-        'Unit Price Excl. VAT': findFieldValue(row, 'Unit Price Excl. VAT'),
+        Code: row[indexes.code],
+        Description: row[indexes.description],
+        Quantity: row[indexes.quantity],
+        'Unit Price Excl. VAT': row[indexes.unitPrice],
       }));
 
     setTableData(_tableData);
@@ -57,10 +62,6 @@ function App() {
 
   function findFieldIndex(row, field) {
     return row.findIndex(item => item === field);
-  }
-
-  function findFieldValue(row, field) {
-    return row[row.findIndex(item => item === field)];
   }
 
   function removeComma(value) {
