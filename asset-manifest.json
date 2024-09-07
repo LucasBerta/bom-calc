@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/bom-calc/static/css/main.0e77cabc.css",
+    "main.js": "/bom-calc/static/js/main.ada82669.js",
+    "static/js/453.5e701a7c.chunk.js": "/bom-calc/static/js/453.5e701a7c.chunk.js",
+    "index.html": "/bom-calc/index.html",
+    "main.0e77cabc.css.map": "/bom-calc/static/css/main.0e77cabc.css.map",
+    "main.ada82669.js.map": "/bom-calc/static/js/main.ada82669.js.map",
+    "453.5e701a7c.chunk.js.map": "/bom-calc/static/js/453.5e701a7c.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0e77cabc.css",
+    "static/js/main.ada82669.js"
+  ]
+}
