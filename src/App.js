@@ -50,10 +50,12 @@ function App() {
         quantity: row[indexes.quantity],
         unitPrice: row[indexes.unitPrice],
         lineDiscount: row[indexes.unitPrice] ? _discountForPOPrice : '',
-        discountedUnitPrice: row[indexes.unitPrice] ? parseFloat((row[indexes.unitPrice] * _discountForPOPrice) / 100).toFixed(2) : '',
+        discountedUnitPrice: row[indexes.unitPrice]
+          ? formatNumber(parseFloat((removeComma(row[indexes.unitPrice]) * _discountForPOPrice) / 100).toFixed(2))
+          : '',
         lineAmount:
           row[indexes.quantity] && row[indexes.unitPrice]
-            ? parseFloat((row[indexes.quantity] * (row[indexes.unitPrice] * (100 - _discountForPOPrice))) / 100).toFixed(2)
+            ? formatNumber(parseFloat((row[indexes.quantity] * (removeComma(row[indexes.unitPrice]) * (100 - _discountForPOPrice))) / 100).toFixed(2))
             : '',
       }));
 
@@ -95,6 +97,17 @@ function App() {
     return value?.replaceAll(',', '');
   }
 
+  function formatNumber(number) {
+    const arr = [...number.toString().split('')];
+    const reversedFormattedArr = arr.reverse().map((n, index) => {
+      if ((index + 1) % 3 === 0 && index > 0 && index < arr.length - 1 && n !== '.') {
+        n = ',' + n;
+      }
+      return n;
+    });
+    return reversedFormattedArr.reverse().join('');
+  }
+
   function validateBOM(bom) {
     const matrix = getMatrix(bom);
     const indexes = getIndexes(matrix[0]);
@@ -104,7 +117,7 @@ function App() {
 
   function getTotalDiscountedPrice() {
     let total = 0;
-    tableData?.rows.forEach(row => (total += parseFloat(row.lineAmount).toFixed(2) * 1 || 0));
+    tableData?.rows.forEach(row => (total += parseFloat(removeComma(row.lineAmount)).toFixed(2) * 1 || 0));
 
     return total.toFixed(2);
   }
