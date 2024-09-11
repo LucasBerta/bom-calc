@@ -147,7 +147,7 @@ function App() {
         <div className='topbarRight'></div>
       </div>
       <div className='App'>
-        <Typography id='title' variant='h5'>
+        <Typography id='title' variant='h5' textAlign='center'>
           Paste the rows from NAV, fill in the PO price below and click "Calculate Discount"
         </Typography>
 
